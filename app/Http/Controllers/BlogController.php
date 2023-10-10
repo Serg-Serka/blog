@@ -19,10 +19,23 @@ class BlogController extends Controller
         $this->jsonPlaceholderService = $jsonPlaceholderService;
     }
 
-    public function index() : View
+    public function index(Request $request) : View
     {
-//        $posts = $this->jsonPlaceholderService->getPosts();
-        $posts = DB::table('posts')->paginate(15);
+        $posts = DB::table('posts');
+
+        if (!empty($request->input('title'))) {
+            $posts->where('title', 'like', '%' . $request->input('title') . '%');
+        }
+
+        if (!empty($request->input('body'))) {
+            $posts->where('body', 'like', '%' . $request->input('body') . '%');
+        }
+
+        if (!empty($request->input('email'))) {
+            $posts->where('email', $request->input('email'));
+        }
+
+        $posts = $posts->paginate(15);
 
         return view('post.listing', ['posts' => $posts]);
     }

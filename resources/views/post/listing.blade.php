@@ -3,6 +3,54 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Posts') }}
         </h2>
+
+        <x-primary-button
+            x-data=""
+            x-on:click.prevent="$dispatch('open-modal', 'filter-posts')"
+        >
+            Filtering
+        </x-primary-button>
+        <x-modal name="filter-posts" focusable>
+            <form method="get" action="{{ route('blog') }}" class="p-6">
+                @csrf
+
+                <div class="mt-6">
+                    <x-input-label for="title" value="{{ __('Title contains') }}"/>
+
+                    <x-text-input
+                        id="title"
+                        name="title"
+                        class="mt-1 block w-3/4"
+                    />
+
+                    <x-input-label for="body" value="{{ __('Body contains') }}"/>
+                    <textarea
+                        id="body"
+                        name="body"
+                        class="mt-1 block w-3/4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
+
+                    <x-input-label for="email" value="{{ __('Authors email') }}"/>
+
+                    <x-text-input
+                        id="email"
+                        name="email"
+                        class="mt-1 block w-3/4"
+                    />
+
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <x-secondary-button x-on:click="$dispatch('close')">
+                        {{ __('Cancel') }}
+                    </x-secondary-button>
+
+                    <x-primary-button class="ml-3">
+                        {{ __('Apply filters') }}
+                    </x-primary-button>
+                </div>
+            </form>
+        </x-modal>
+
     </x-slot>
 
     <div class="py-12">
