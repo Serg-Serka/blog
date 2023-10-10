@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -36,9 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/posts', [PostController::class, 'create'])->name('posts.create');
     Route::patch('/posts', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts', [PostController::class, 'destroy'])->name('posts.delete');
-
 });
-//Route::resource('/posts', PostController::class);
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+
+Route::get('/comments', [CommentController::class, 'index'])->name('comments.index')->middleware('auth');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 
