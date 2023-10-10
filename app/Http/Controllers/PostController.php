@@ -38,6 +38,7 @@ class PostController extends Controller
      */
     public function create(Request $request) : RedirectResponse
     {
+        // todo: move this to store
         $userId = $request->user()->id;
 
         $post = new Post;
@@ -65,7 +66,7 @@ class PostController extends Controller
     public function show(string $id)
     {
         $post = Post::find($id);
-        $comments = Comment::where('post_id', $id)->where('is_approved', 1)->get();
+        $comments = Comment::where('post_id', $id)->where('is_approved', 1)->orderByDesc('created_at')->get();
         $userName = User::find($post->user_id)->name;
 
         return view('post.one-post', ['post' => $post, 'comments' => $comments, 'userName' => $userName]);

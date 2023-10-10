@@ -11,7 +11,6 @@
         </p>
     </div>
 
-    {{--TODO: display this only on "My posts" page--}}
     @auth
     <div class="flex items-center gap-4">
         <x-primary-button
@@ -49,7 +48,6 @@
                 <input type="hidden" value="{{$post['id']}}" name="post_id">
                 @csrf
                 @method('patch')
-
 
                 <div class="mt-6">
                     <x-input-label for="title" value="{{ __('Title') }}"/>
