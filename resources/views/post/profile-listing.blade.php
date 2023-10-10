@@ -24,7 +24,7 @@
                         class="mt-1 block w-3/4"
                     />
 
-                    <x-input-label for="body" value="{{ __('Body') }}" />
+                    <x-input-label for="body" value="{{ __('Body') }}"/>
                     <textarea
                         id="body"
                         name="body"
@@ -49,10 +49,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-           @foreach ($posts as $post)
+            @foreach ($posts as $post)
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <div class="max-w-xl">
-                        @include('post.one-post')
+                        @include('post.profile-one-post')
                     </div>
                 </div>
             @endforeach

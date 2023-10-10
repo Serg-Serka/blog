@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Services\JsonPlaceholderService;
@@ -62,7 +64,11 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post::find($id);
+        $comments = Comment::where('post_id', $id)->where('is_approved', 1)->get();
+        $userName = User::find($post->user_id)->name;
+
+        return view('post.one-post', ['post' => $post, 'comments' => $comments, 'userName' => $userName]);
     }
 
     /**
