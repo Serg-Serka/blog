@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Comment;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -28,13 +29,14 @@ class CommentSeeder extends Seeder
         foreach ($comments as $comment) {
 
             try {
-                $user = User::where('email', $comment['email'])->firstOrFail();
+                $post = Post::findOrFail($comment['postId']);
 
                 Comment::factory()->create([
                     'body' => $comment['body'],
                     'name' => $comment['name'],
-                    'user_id' => $user->id,
-                    'post_id' => $comment['postId']
+                    'email' => $comment['email'],
+                    'is_approved' => 1,
+                    'post_id' => $post->id
                 ]);
             } catch (ModelNotFoundException) {
                 continue;

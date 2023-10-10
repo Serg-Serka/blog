@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->text('body');
             $table->string('name');
-            $table->unsignedBigInteger('user_id');
+            $table->string('email');
+            $table->boolean('is_approved');
             $table->unsignedBigInteger('post_id');
 
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('post_id')->references('id')->on('posts');
 
             $table->timestamps();
