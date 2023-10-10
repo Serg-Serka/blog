@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\BlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +29,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::put('/posts', [PostController::class, 'create'])->name('posts.create');
+    Route::patch('/posts', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts', [PostController::class, 'destroy'])->name('posts.delete');
+
+});
+//Route::resource('/posts', PostController::class);
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 
 require __DIR__.'/auth.php';
