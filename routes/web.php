@@ -42,6 +42,8 @@ Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/comments', [CommentController::class, 'index'])->name('comments.index')->middleware('auth');
 Route::put('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/comments/pending', [CommentController::class, 'pending'])->name('comments.pending')->middleware('auth');
+Route::patch('/comments/approve', [CommentController::class, 'approve'])->name('comments.approve')->middleware('auth');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 

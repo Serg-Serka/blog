@@ -51,6 +51,12 @@
                             {{ __('My comments') }}
                         </x-dropdown-link>
 
+                        @if(Auth::user()->is_admin)
+                            <x-dropdown-link :href="route('comments.pending')">
+                                {{ __('Pending for approval comments') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

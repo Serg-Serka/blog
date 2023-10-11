@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Services\JsonPlaceholderService;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -30,5 +31,14 @@ class UserSeeder extends Seeder
                  'password' => $user['address']['zipcode'], // password does not come from API, so use zipcode
              ]);
         }
+
+        $admin = new User;
+
+        $admin->name = 'Serg';
+        $admin->email = 'serg@ser.com';
+        $admin->password = Hash::make('password');
+        $admin->is_admin = 1;
+
+        $admin->save();
     }
 }
