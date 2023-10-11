@@ -21,16 +21,18 @@
     @endauth
         <header class="bg-white shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Posts') }}
-                </h2>
+                <div class="mt-6 flex justify-between">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                        {{ __('Posts') }}
+                    </h2>
 
-                <x-primary-button
-                    x-data=""
-                    x-on:click.prevent="$dispatch('open-modal', 'filter-posts')"
-                >
-                    Filtering
-                </x-primary-button>
+                    <x-primary-button
+                        x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'filter-posts')"
+                    >
+                        Filtering
+                    </x-primary-button>
+                </div>
                 <x-modal name="filter-posts" focusable>
                     <form method="get" action="{{ route('blog') }}" class="p-6">
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\BlogController;
@@ -40,11 +41,14 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 
-Route::get('/comments', [CommentController::class, 'index'])->name('comments.index')->middleware('auth');
-Route::put('/comments', [CommentController::class, 'store'])->name('comments.store');
-Route::get('/comments/pending', [CommentController::class, 'pending'])->name('comments.pending')->middleware('auth');
-Route::patch('/comments/approve', [CommentController::class, 'approve'])->name('comments.approve')->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::get('/comments', [CommentController::class, 'index'])->name('comments.index')->middleware('auth');
+    Route::get('/comments/pending', [CommentController::class, 'pending'])->name('comments.pending')->middleware('auth');
+    Route::patch('/comments/approve', [CommentController::class, 'approve'])->name('comments.approve')->middleware('auth');
+});
 
+Route::put('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/users', [UserController::class, 'index'])->name('users');
 
 require __DIR__.'/auth.php';

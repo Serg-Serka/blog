@@ -1,15 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('My posts') }}
-        </h2>
+        <div class="mt-6 flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('My posts') }}
+            </h2>
 
-        <x-primary-button
-            x-data=""
-            x-on:click.prevent="$dispatch('open-modal', 'create-post')"
-        >
-            Create new post!
-        </x-primary-button>
+            <x-primary-button
+                x-data=""
+                x-on:click.prevent="$dispatch('open-modal', 'create-post')"
+            >
+                Create new post!
+            </x-primary-button>
+        </div>
         <x-modal name="create-post" focusable>
             <form method="post" action="{{ route('posts.create') }}" class="p-6">
                 @csrf
@@ -28,8 +30,7 @@
                     <textarea
                         id="body"
                         name="body"
-                        class="mt-1 block w-3/4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                    </textarea>
+                        class="mt-1 block w-3/4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
 
                 </div>
 
