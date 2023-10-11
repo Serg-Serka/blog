@@ -26,6 +26,11 @@ class JsonPlaceholderProvider extends ServiceProvider implements DeferrableProvi
         //
     }
 
+    /**
+     * List Service classes
+     *
+     * @return string[]
+     */
     public function provides(): array
     {
         return [JsonPlaceholderService::class];

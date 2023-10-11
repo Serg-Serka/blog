@@ -10,6 +10,11 @@ class Post extends Model
 {
     use HasFactory;
 
+    /**
+     * Comments relationship
+     *
+     * @return HasMany
+     */
     public function comments() : HasMany
     {
         return $this->hasMany(Comment::class);

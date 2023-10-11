@@ -12,8 +12,18 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CommentSeeder extends Seeder
 {
+    /**
+     * Service class
+     *
+     * @var JsonPlaceholderService
+     */
     protected JsonPlaceholderService $jsonPlaceholderService;
 
+    /**
+     * Seeder constructor
+     *
+     * @param JsonPlaceholderService $jsonPlaceholderService
+     */
     public function __construct(JsonPlaceholderService $jsonPlaceholderService)
     {
         $this->jsonPlaceholderService = $jsonPlaceholderService;

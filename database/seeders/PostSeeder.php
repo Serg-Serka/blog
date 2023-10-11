@@ -11,12 +11,23 @@ use App\Services\JsonPlaceholderService;
 
 class PostSeeder extends Seeder
 {
+    /**
+     * Service class
+     *
+     * @var JsonPlaceholderService
+     */
     protected JsonPlaceholderService $jsonPlaceholderService;
 
+    /**
+     * Seeder constructor
+     *
+     * @param JsonPlaceholderService $jsonPlaceholderService
+     */
     public function __construct(JsonPlaceholderService $jsonPlaceholderService)
     {
         $this->jsonPlaceholderService = $jsonPlaceholderService;
     }
+
     /**
      * Run the database seeds.
      */
@@ -34,11 +45,6 @@ class PostSeeder extends Seeder
                     'user_id' => $user->id
                 ]);
             } catch (ModelNotFoundException) {
-//                Post::factory()->create([
-//                    'body' => $post['body'],
-//                    'title' => $post['title'],
-//                    'user_id' => 1
-//                ]);
                 continue;
             }
         }

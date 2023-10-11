@@ -9,63 +9,52 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Services\JsonPlaceholderService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
-
-    protected JsonPlaceholderService $jsonPlaceholderService;
-
-    public function __construct(JsonPlaceholderService $jsonPlaceholderService)
-    {
-        $this->jsonPlaceholderService = $jsonPlaceholderService;
-    }
-
     /**
-     * Display a listing of the resource.
+     * Show all posts related to user
+     *
+     * @param Request $request
+     * @return View
      */
     public function index(Request $request) : View
     {
         $userId = $request->user()->id;
         $posts = Post::where('user_id', $userId)->orderByDesc('created_at')->get();
 
-
         return view('post.profile-listing', ['posts' => $posts, 'error' => $request->input('error')]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Store post
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
         $userId = $request->user()->id;
 
         $post = new Post;
-
         $post->user_id = $userId;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->created_at = $request->input('date') ?? Carbon::now();
-
         $post->save();
 
         return redirect('/posts');
     }
 
     /**
-     * Display the specified resource.
+     * Show post by ID
+     *
+     * @param string $id
+     * @return View
      */
-    public function show(string $id)
+    public function show(string $id) : View
     {
         try {
             $post = Post::findOrFail($id);
@@ -79,29 +68,21 @@ class PostController extends Controller
             $userName = null;
             $error = true;
         }
-
         return view('post.one-post', ['post' => $post, 'comments' => $comments, 'userName' => $userName, 'error' => $error]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update posts
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function edit()
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request)
+    public function update(Request $request) : RedirectResponse
     {
         try {
             $post = Post::findOrFail($request->input('post_id'));
-
             $post->title = $request->input('title');
             $post->body = $request->input('body');
-
             $post->save();
         } catch (ModelNotFoundException $exception) {
             Log::error($exception->getMessage());
@@ -111,7 +92,10 @@ class PostController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete post
+     *
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function destroy(Request $request) : RedirectResponse
     {

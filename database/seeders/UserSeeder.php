@@ -10,8 +10,18 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
+    /**
+     * Service class
+     *
+     * @var JsonPlaceholderService
+     */
     protected JsonPlaceholderService $jsonPlaceholderService;
 
+    /**
+     * Seeder constructor
+     *
+     * @param JsonPlaceholderService $jsonPlaceholderService
+     */
     public function __construct(JsonPlaceholderService $jsonPlaceholderService)
     {
         $this->jsonPlaceholderService = $jsonPlaceholderService;
@@ -23,7 +33,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users = $this->jsonPlaceholderService->getUsers();
-
         foreach ($users as $user) {
              User::factory()->create([
                  'name' => $user['name'],
@@ -33,12 +42,10 @@ class UserSeeder extends Seeder
         }
 
         $admin = new User;
-
         $admin->name = 'Serg';
         $admin->email = 'serg@ser.com';
         $admin->password = Hash::make('password');
         $admin->is_admin = 1;
-
         $admin->save();
     }
 }

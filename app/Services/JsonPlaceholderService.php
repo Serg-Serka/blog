@@ -6,61 +6,63 @@ use Illuminate\Support\Facades\Http;
 
 class JsonPlaceholderService
 {
+    /**
+     * Resource url
+     *
+     * @var string
+     */
     private string $url;
 
+    /**
+     * Service constructor
+     *
+     * @param $url
+     */
     public function __construct($url)
     {
         $this->url = $url;
     }
 
-    public function getUsers()
+    /**
+     * Get all users
+     *
+     * @return array|mixed
+     */
+    public function getUsers(): mixed
     {
         $response = Http::get($this->url('users'));
         return $response->json();
 
     }
 
-    public function getUserById($userId)
-    {
-        $response = Http::get($this->url("users/$userId"));
-        return $response->json();
-    }
-
-    public function getPosts()
+    /**
+     * Get all posts
+     *
+     * @return array|mixed
+     */
+    public function getPosts(): mixed
     {
         $response = Http::get($this->url('posts'));
         return $response->json();
     }
 
-    public function getPostById($postId)
-    {
-        $response = Http::get($this->url("posts/$postId"));
-        return $response->json();
-    }
-
-    public function getComments()
+    /**
+     * Get all comments
+     *
+     * @return array|mixed
+     */
+    public function getComments(): mixed
     {
         $response = Http::get($this->url('comments'));
         return $response->json();
     }
 
-    public function getCommentById($commentId)
-    {
-        $response = Http::get($this->url("comments/$commentId"));
-        return $response->json();
-    }
-
-    public function getPostsByUserId($userId)
-    {
-        $response = Http::get($this->url("users/$userId/posts"));
-        return $response->json();
-    }
-
-//    public function getCommentsByUserId($userId)
-//    {
-//
-//    }
-
+    /**
+     * Get resource url
+     *
+     * @param $path
+     * @return string
+     */
     private function url($path): string
     {
         return "{$this->url}/$path";

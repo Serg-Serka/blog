@@ -44,11 +44,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Posts relationship
+     *
+     * @return HasMany
+     */
     public function posts() : HasMany
     {
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * Comments relationship
+     *
+     * @return HasMany
+     */
     public function comments() : HasMany
     {
         return $this->hasMany(Comment::class);
