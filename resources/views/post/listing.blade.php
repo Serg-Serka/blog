@@ -12,7 +12,7 @@
         </x-primary-button>
         <x-modal name="filter-posts" focusable>
             <form method="get" action="{{ route('blog') }}" class="p-6">
-                @csrf
+{{--                @csrf--}}
 
                 <div class="mt-6">
                     <x-input-label for="title" value="{{ __('Title contains') }}"/>
@@ -35,6 +35,22 @@
                         id="email"
                         name="email"
                         class="mt-1 block w-3/4"
+                    />
+
+                    <x-input-label for="dateFrom" value="{{ __('From') }}" />
+                    <input
+                        id="dateFrom"
+                        name="dateFrom"
+                        type="date"
+                        class="mt-1 block w-3/4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    />
+
+                    <x-input-label for="dateTo" value="{{ __('To') }}" />
+                    <input
+                        id="dateTo"
+                        name="dateTo"
+                        type="date"
+                        class="mt-1 block w-3/4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     />
 
                 </div>

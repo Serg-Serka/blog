@@ -28,7 +28,7 @@ class PostController extends Controller
     {
 
         $userId = $request->user()->id;
-        $posts = Post::where('user_id', $userId)->get();
+        $posts = Post::where('user_id', $userId)->orderByDesc('created_at')->get();
 
         return view('post.profile-listing', ['posts' => $posts]);
     }

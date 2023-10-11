@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\JsonPlaceholderService;
 use Illuminate\Support\Facades\DB;
@@ -32,10 +32,18 @@ class BlogController extends Controller
         }
 
         if (!empty($request->input('email'))) {
-            $posts->where('email', $request->input('email'));
+            $posts->where('user_id', User::where('email', $request->input('email'))->first()->id);
         }
 
-        $posts = $posts->paginate(15);
+        if (!empty($request->input('dateFrom'))) {
+            $posts->whereDate('created_at', '>=', Carbon::createFromDate($request->input('dateFrom')));
+        }
+
+        if (!empty($request->input('dateTo'))) {
+            $posts->whereDate('created_at', '<=', Carbon::createFromDate($request->input('dateTo')));
+        }
+
+        $posts = $posts->paginate(10);
 
         return view('post.listing', ['posts' => $posts]);
     }
