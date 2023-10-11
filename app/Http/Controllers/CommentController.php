@@ -26,7 +26,7 @@ class CommentController extends Controller
         $comment->post_id = $request->input('post_id');
 
 
-        if ($request->user()->id) {
+        if ($request->user()) {
             $comment->email = $request->user()->email;
             $comment->is_approved = true;
         } else {

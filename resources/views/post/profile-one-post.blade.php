@@ -11,7 +11,6 @@
         </p>
     </div>
 
-    @auth
     <div class="flex items-center gap-4">
         <x-primary-button
             x-data=""
@@ -82,8 +81,5 @@
         </x-modal>
 
     </div>
-    @endauth
-
-
 </section>
 

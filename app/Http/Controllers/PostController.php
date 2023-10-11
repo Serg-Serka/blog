@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Services\JsonPlaceholderService;
@@ -26,19 +27,26 @@ class PostController extends Controller
      */
     public function index(Request $request) : View
     {
-
         $userId = $request->user()->id;
         $posts = Post::where('user_id', $userId)->orderByDesc('created_at')->get();
 
-        return view('post.profile-listing', ['posts' => $posts]);
+
+        return view('post.profile-listing', ['posts' => $posts, 'error' => $request->input('error')]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request) : RedirectResponse
+    public function create()
     {
-        // todo: move this to store
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request): RedirectResponse
+    {
         $userId = $request->user()->id;
 
         $post = new Post;
@@ -47,17 +55,9 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->body = $request->input('body');
 
-        $this->store($post);
+        $post->save();
 
         return redirect('/posts');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Post $post): void
-    {
-        $post->save();
     }
 
     /**
@@ -65,27 +65,28 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $post = Post::find($id);
-        $comments = Comment::where('post_id', $id)->where('is_approved', 1)->orderByDesc('created_at')->get();
-        $userName = User::find($post->user_id)->name;
+        try {
+            $post = Post::findOrFail($id);
+            $comments = Comment::where('post_id', $id)->where('is_approved', 1)->orderByDesc('created_at')->get();
+            $userName = User::findOrFail($post->user_id)->name;
+            $error = false;
+        } catch (ModelNotFoundException $exception) {
+            Log::error($exception->getMessage());
+            $post = null;
+            $comments = null;
+            $userName = null;
+            $error = true;
+        }
 
-        return view('post.one-post', ['post' => $post, 'comments' => $comments, 'userName' => $userName]);
+        return view('post.one-post', ['post' => $post, 'comments' => $comments, 'userName' => $userName, 'error' => $error]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request) : RedirectResponse
+    public function edit()
     {
-        // todo: findOrFail or smth
-        $post = Post::find($request->input('post_id'));
-
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
-
-        $this->store($post);
-
-        return redirect('/posts');
+        //
     }
 
     /**
@@ -93,12 +94,16 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
-        $post = Post::find($request->input('post_id'));
+        try {
+            $post = Post::findOrFail($request->input('post_id'));
 
-        $post->title = $request->input('title');
-        $post->body = $request->input('body');
+            $post->title = $request->input('title');
+            $post->body = $request->input('body');
 
-        $this->store($post);
+            $post->save();
+        } catch (ModelNotFoundException $exception) {
+            Log::error($exception->getMessage());
+        }
 
         return redirect('/posts');
     }
@@ -108,11 +113,14 @@ class PostController extends Controller
      */
     public function destroy(Request $request) : RedirectResponse
     {
-        $postId = $request->input('post_id');
-        $post = Post::find($postId);
-        $post->delete();
+        try {
+            $postId = $request->input('post_id');
+            $post = Post::findOrFail($postId);
+            $post->delete();
+        } catch (ModelNotFoundException $exception) {
+            Log::error($exception->getMessage());
+        }
 
         return redirect('/posts');
-
     }
 }
