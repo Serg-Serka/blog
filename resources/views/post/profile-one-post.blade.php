@@ -9,6 +9,9 @@
         <p class="mt-1 text-sm text-gray-600">
             {{$post['body']}}
         </p>
+        <p class="mt-1 text-sm text-gray-600">
+            {{$post['created_at']}}
+        </p>
     </div>
 
     <div class="flex items-center gap-4">

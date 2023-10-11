@@ -32,6 +32,14 @@
                         name="body"
                         class="mt-1 block w-3/4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
 
+                    <x-input-label for="date" value="{{ __('Date') }}" />
+                    <input
+                        id="date"
+                        name="date"
+                        type="date"
+                        class="mt-1 block w-3/4 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    />
+
                 </div>
 
                 <div class="mt-6 flex justify-end">

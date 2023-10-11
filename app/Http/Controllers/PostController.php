@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -54,6 +55,7 @@ class PostController extends Controller
         $post->user_id = $userId;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        $post->created_at = $request->input('date') ?? Carbon::now();
 
         $post->save();
 
